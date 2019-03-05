@@ -57,7 +57,7 @@ def linearScale(W1, H1, W2, H2, inputImage):
             outputImage[i,j] = B,G,R
 
     # print histogram and calculated a and b values
-    print(histogram, "\na = ", a, "\nb = ", b)
+    print("Histogram:\n", histogram, "\na = ", a, "\nb = ", b)
     return outputImage
 
 # compute histogram equalization in the range specified by W1, H1, W2, H2
