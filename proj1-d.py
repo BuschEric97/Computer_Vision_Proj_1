@@ -45,10 +45,15 @@ H2 = round(h2*(rows-1))
 
 # perform histogram equalization in the Luv domain
 imageWindow = inputImage[H1:H2, W1:W2] # get the window of the original image in which we are modifying
-#cv2.cvtColor(imageWindow, imageWindow, cv2.COLOR_BGR2Luv) # convert image window to Luv color space
-#cv2.equalizeHist(imageWindow, imageWindow) # perform histogram equalization on the image window
-#cv2.cvtColor(imageWindow, imageWindow, cv2.COLOR_Luv2BGR) # convert image window back to BGR color space
-outputImage = imageWindow
+imageWindow = cv2.cvtColor(imageWindow, cv2.COLOR_BGR2Luv) # convert image window to Luv color space
+imageWindow[:,:,0] = cv2.equalizeHist(imageWindow[:,:,0]) # perform histogram equalization on the image window
+imageWindow = cv2.cvtColor(imageWindow, cv2.COLOR_Luv2BGR) # convert image window back to BGR color space
+
+# put the image window back onto a copy of input image
+outputImage = inputImage # copy input image
+for i in range(H1, H2):
+    for j in range(W1, W2):
+        outputImage[i,j] = imageWindow[i-H1,j-W1]
 
 # display and write output image
 cv2.imshow("Modified Image", outputImage)
