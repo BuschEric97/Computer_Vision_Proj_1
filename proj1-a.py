@@ -12,13 +12,14 @@ import sys
 import convertColors
 
 # get and assign command line arguments
-if (len(sys.argv) != 3):
-    print(sys.argv[0], ": takes 2 arguments. Not ", len(sys.argv)-1)
+if (len(sys.argv) != 4):
+    print(sys.argv[0], ": takes 3 arguments. Not ", len(sys.argv)-1)
     print("Expecting arguments: width height.")
-    print("Example:", sys.argv[0], " 200 300")
+    print("Example:", sys.argv[0], " 200 300 out.png")
     sys.exit()
 cols = int(sys.argv[1])
 rows = int(sys.argv[2])
+name_output = sys.argv[3]
 
 # compute the output image
 image = np.zeros([rows, cols, 3], dtype='uint8') # Initialize the image with all 0
@@ -31,8 +32,9 @@ for i in range(0, rows):
         b,g,r = convertColors.convertLuv2BGR(L,u,v)
         image[i,j]=np.array([b,g,r],dtype='uint8')
 
-# show the output image
-cv2.imshow("Luv:", image)
+# display and write the output image
+cv2.imshow("Luv", image)
+cv2.imwrite(name_output, image)
 
 # wait for key to exit
 cv2.waitKey(0)
